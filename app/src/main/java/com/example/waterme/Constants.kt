@@ -30,6 +30,7 @@ val NOTIFICATION_TITLE: CharSequence = "Water me!"
 // ID of Notification Channel for verbose notifications of background work
 const val CHANNEL_ID = "VERBOSE_NOTIFICATION"
 
+
 // ID of Notification for verbose notifications of background work
 const val NOTIFICATION_ID = 1
 
