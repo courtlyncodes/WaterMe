@@ -33,6 +33,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,6 +46,7 @@ import com.example.waterme.model.Plant
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -120,7 +123,10 @@ fun PlantListContent(
 @Composable
 fun PlantListItem(plant: Plant, onItemSelect: (Plant) -> Unit, modifier: Modifier = Modifier) {
     Card(modifier = modifier
-        .clickable { onItemSelect(plant) }
+        .clickable { onItemSelect(plant) },
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFFC9E0AE)
+        )
     ) {
         Column(
             modifier = Modifier

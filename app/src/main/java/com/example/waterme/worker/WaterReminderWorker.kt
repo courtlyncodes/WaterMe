@@ -27,7 +27,6 @@ class WaterReminderWorker(
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
-
         val plantName = inputData.getString(nameKey)
 
         makePlantReminderNotification(
