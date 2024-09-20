@@ -46,6 +46,8 @@ import com.example.waterme.model.Plant
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
@@ -61,6 +63,9 @@ import com.example.waterme.SEVEN_DAYS
 import com.example.waterme.THIRTY_DAYS
 import com.example.waterme.data.DataSource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.waterme.ONE_MINUTE
+import com.example.waterme.THREE_MINUTES
+import com.example.waterme.TWO_MINUTES
 import java.util.concurrent.TimeUnit
 
 @Composable
@@ -72,9 +77,11 @@ fun WaterMeApp(waterViewModel: WaterViewModel = viewModel(factory = WaterViewMod
                 .fillMaxSize()
                 .statusBarsPadding()
                 .padding(
-                    start = WindowInsets.safeDrawing.asPaddingValues()
+                    start = WindowInsets.safeDrawing
+                        .asPaddingValues()
                         .calculateStartPadding(layoutDirection),
-                    end = WindowInsets.safeDrawing.asPaddingValues()
+                    end = WindowInsets.safeDrawing
+                        .asPaddingValues()
                         .calculateEndPadding(layoutDirection)
                 ),
         ) {
@@ -94,6 +101,8 @@ fun PlantListContent(
 ) {
     var selectedPlant by rememberSaveable { mutableStateOf(plants[0]) }
     var showReminderDialog by rememberSaveable { mutableStateOf(false) }
+    var selectedTime by rememberSaveable { mutableLongStateOf(5000L)}
+
     LazyColumn(
         contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_medium)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium)),
@@ -113,6 +122,7 @@ fun PlantListContent(
     }
     if (showReminderDialog) {
         ReminderDialogContent(
+            onTimeSelected = {selectedTime = it},
             onDialogDismiss = { showReminderDialog = false },
             plantName = stringResource(selectedPlant.name),
             onScheduleReminder = onScheduleReminder
@@ -152,6 +162,7 @@ fun PlantListItem(plant: Plant, onItemSelect: (Plant) -> Unit, modifier: Modifie
 
 @Composable
 fun ReminderDialogContent(
+    onTimeSelected: (Long) -> Unit,
     onDialogDismiss: () -> Unit,
     plantName: String,
     onScheduleReminder: (Reminder) -> Unit,
@@ -159,9 +170,12 @@ fun ReminderDialogContent(
 ) {
     val reminders = listOf(
         Reminder(R.string.five_seconds, FIVE_SECONDS, TimeUnit.SECONDS, plantName),
-        Reminder(R.string.one_day, ONE_DAY, TimeUnit.DAYS, plantName),
-        Reminder(R.string.one_week, SEVEN_DAYS, TimeUnit.DAYS, plantName),
-        Reminder(R.string.one_month, THIRTY_DAYS, TimeUnit.DAYS, plantName)
+        Reminder(R.string.one_minute, ONE_MINUTE, TimeUnit.MINUTES, plantName),
+        Reminder(R.string._2_minutes, TWO_MINUTES, TimeUnit.MINUTES, plantName),
+        Reminder(R.string._3_minutes, THREE_MINUTES, TimeUnit.MINUTES, plantName)
+//        Reminder(R.string.one_minute, TimeUnit.DAYS, plantName),
+//        Reminder(R.string.one_week, SEVEN_DAYS, TimeUnit.DAYS, plantName),
+//        Reminder(R.string.one_month, THIRTY_DAYS, TimeUnit.DAYS, plantName)
     )
 
     AlertDialog(
@@ -175,6 +189,7 @@ fun ReminderDialogContent(
                         text = stringResource(it.durationRes),
                         modifier = Modifier
                             .clickable {
+                                onTimeSelected(it.duration)
                                 onScheduleReminder(it)
                                 onDialogDismiss()
                             }
