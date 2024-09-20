@@ -77,7 +77,16 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation("androidx.work:work-runtime-ktx:2.9.1")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     debugImplementation("androidx.compose.ui:ui-tooling")
+    // Espresso
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    // Junit
+    androidTestImplementation("androidx.test.ext:junit-ktx:1.2.1")
+    // Work testing
+    androidTestImplementation("androidx.work:work-testing:2.9.1")
+    // Mockito
+    androidTestImplementation("org.mockito:mockito-core:5.12.0")
+    androidTestImplementation("org.mockito:mockito-inline:5.2.0")
 }
