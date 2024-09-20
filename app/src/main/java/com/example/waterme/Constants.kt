@@ -45,3 +45,9 @@ const val TWO_MINUTES: Long = 2
 const val THREE_MINUTES: Long = 3
 const val SEVEN_DAYS: Long = 7
 const val THIRTY_DAYS: Long = 30
+
+// Time durations
+const val FIVE_SECONDS_MILLIS = 5000L
+const val ONE_DAY_MILLIS = 86400000L
+const val SEVEN_DAYS_MILLIS = 604800000L
+const val THIRTY_DAYS_MILLIS = 2592000000L
