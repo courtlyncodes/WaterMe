@@ -26,16 +26,25 @@ import com.example.waterme.worker.WaterReminderWorker
 import java.util.concurrent.TimeUnit
 
 class WorkManagerWaterRepository(context: Context) : WaterRepository {
+
+
     private val workManager = WorkManager.getInstance(context)
 
     override val plants: List<Plant>
         get() = DataSource.plants
 
     override fun scheduleReminder(duration: Long, unit: TimeUnit, plantName: String) {
+        val durationInMillis = when (unit) {
+            TimeUnit.SECONDS -> duration * 1000L
+            TimeUnit.DAYS -> duration * 24 * 60 * 60 * 1000L
+            else -> throw IllegalArgumentException("Unsupported time unit: $unit")
+        }
+
         val data = Data.Builder()
         data.putString(WaterReminderWorker.nameKey, plantName)
 
         val waterReminderBuilder = OneTimeWorkRequestBuilder<WaterReminderWorker>()
+            .setInitialDelay(durationInMillis, TimeUnit.MILLISECONDS)
             .setInputData(data.build())
             .build()
 
