@@ -27,6 +27,7 @@ object DataSource {
             type = R.string.succulent,
             description = R.string.stone_mimicking_succulent
         ),
+
         Plant(
             name = R.string.carrot,
             schedule = R.string.daily,
